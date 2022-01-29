@@ -168,7 +168,7 @@ class ADPCrawler:
             time.sleep(random.random())
 
     def chrome_driver_login(self, natural_typing=True):
-        driver = webdriver.Chrome("/Users/olehdubno/Documents/chromedriver")
+        driver = webdriver.Chrome("/<path_to_chrome_driver>/chromedriver")
         login_url = "https://my.adp.com/"
         driver.get(login_url)
 
