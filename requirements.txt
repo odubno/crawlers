@@ -1,0 +1,4 @@
+requests==2.27.1
+mock==4.0.3
+pytest==6.2.5
+selenium==4.1.0
