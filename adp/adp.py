@@ -1,3 +1,4 @@
+import re
 import requests
 import json
 import random
@@ -60,6 +61,16 @@ class ADPCrawler:
             headers=headers,
         )
         self.adp_session = sign_in_start.json()["session"]
+
+    def attempt_to_grab_cookies(self):
+        # TODO: need work with the JS response to get cookies formatted
+        adp_js_page = self.get('https://online.adp.com/inc/js/lib/6a8f894227f41759348779077d1e5851.js')
+        x_c = re.search('seed=(.*?)&', adp_js_page.content.decode('utf-8')).group(1)
+        x_f = re.search('e.detail.init\(\"(.*?)\"', adp_js_page.content.decode('utf-8')).group(1)
+        adp_js_seed_page = self.get('https://online.adp.com/inc/js/lib/6a8f894227f41759348779077d1e5851.js', params={
+            'seed': x_c
+        })
+        x_a = re.search('g\(\"(.*?)\"', adp_js_seed_page.content.decode('utf-8')).group(1)
 
     def handle_signin_username(self):
         # submit username
@@ -194,6 +205,6 @@ class ADPCrawler:
 
 if __name__ == "__main__":
     pass
-    # crawl = ADPCrawler("test", "test")
-    # crawl.requests_login()
-    # crawl.get_pay_statement_dates(160)
+    crawl = ADPCrawler("odubno", "Lifeislife1!")
+    crawl.requests_login()
+    crawl.get_pay_statement_dates(160)
